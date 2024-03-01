@@ -68,6 +68,15 @@
             </p>
           <?php endif ?>
           <form enctype="multipart/form-data" method="POST" action="add.php">
+
+          <div class="mb-3 row">
+              <label for="imagen" class="col-md-4 col-form-label text-md-end">Photo</label>
+
+              <div class="col-md-6">
+                <input id="imagen" type="file" class="form-control" name="imagen" autocomplete="imagen" autofocus>
+              </div>
+            </div>
+
             <div class="mb-3 row">
               <label for="name" class="col-md-4 col-form-label text-md-end">Name</label>
 
@@ -81,14 +90,6 @@
 
               <div class="col-md-6">
                 <input id="phone_number" type="tel" class="form-control" name="phone_number" autocomplete="phone_number" autofocus>
-              </div>
-            </div>
-
-            <div class="mb-3 row">
-              <label for="imagen" class="col-md-4 col-form-label text-md-end">Photo</label>
-
-              <div class="col-md-6">
-                <input id="imagen" type="file" class="form-control" name="imagen" autocomplete="imagen" autofocus>
               </div>
             </div>
 
