@@ -61,12 +61,11 @@ if ($contact["user_id"] !== $_SESSION["user"]["id"]) {
 $error = null;
 
 //Verifica si se envió el formulario
+// Verificar si se envió el formulario
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-  $img = $_FILES["imagen"]["tmp_name"];
-
   // Verificar si se llenaron todos los campos
-  if (empty($_POST["name"]) || empty($_POST["phone_number"]) || empty($_FILES["imagen"]["name"])) {
+  if (empty($_POST["name"]) || empty($_POST["phone_number"])) {
     $error = "Please fill all the fields.";
   } else {
     // Verificar si el número de teléfono contiene solo números enteros
@@ -76,54 +75,67 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Verificar si la longitud del número de teléfono es menor que 9
         if(strlen($_POST["phone_number"]) < 9){
             $error = "Phone number must be at least 9 digits long.";
-        }else{
-          //Obtener la información del archivo de imagen
-          $img = $_FILES["imagen"]["tmp_name"];
-          $nameImagen = $_FILES["imagen"]["name"];
-          $tipoImagen = strtolower(pathinfo($nameImagen, PATHINFO_EXTENSION));
-          $directorio = "photos/";
-
-          //Verifica el formato de la imagen
-          if ($tipoImagen == "jpg" || $tipoImagen == "jpeg" || $tipoImagen == "png") {
-            //Eliminar la imagen anterior
-            try {
-              unlink($contact["photo"]);
-            } catch (\Throwable $th) {
-              //throw $th;
-            }
-
-            // Mover la nueva imagen al directorio de fotos
-            $ruta = $directorio . $id . "." . $tipoImagen;
-            
-            if (move_uploaded_file($img, $ruta)) {
-              // Actualizar la información del contacto con la nueva foto
-              $statement = $conn->prepare("UPDATE contacts SET name = :name, phone_number = :phone_number, photo = :photo WHERE id = :id");
-              $statement->execute([
-                ":id" => $id,
-                ":name" => $_POST["name"],
-                ":phone_number" => $_POST["phone_number"],
-                ":photo" => $ruta,
-              ]);
-            } else {
-              $error = "Error uploading image to the server.";
-            }
-
-          } else {
-            $error = "Invalid image format.";
-          }
-          
         }
     }
   }
 
-    // Verificar si no hay errores antes de redirigir
+  // Verificar si no hay errores antes de procesar la imagen y actualizar la información del contacto
   if (!$error) {
+    // Procesar la imagen solo si se ha subido una nueva
+    if (!empty($_FILES["imagen"]["name"])) {
+                //Obtener la información del archivo de imagen
+                $img = $_FILES["imagen"]["tmp_name"];
+                $nameImagen = $_FILES["imagen"]["name"];
+                $tipoImagen = strtolower(pathinfo($nameImagen, PATHINFO_EXTENSION));
+                $directorio = "photos/";
+      
+                //Verifica el formato de la imagen
+                if ($tipoImagen == "jpg" || $tipoImagen == "jpeg" || $tipoImagen == "png") {
+                  //Eliminar la imagen anterior
+                  try {
+                    unlink($contact["photo"]);
+                  } catch (\Throwable $th) {
+                    //throw $th;
+                  }
+      
+                  // Mover la nueva imagen al directorio de fotos
+                  $ruta = $directorio . $id . "." . $tipoImagen;
+                  
+                  if (move_uploaded_file($img, $ruta)) {
+                    // Actualizar la información del contacto con la nueva foto
+                    $statement = $conn->prepare("UPDATE contacts SET name = :name, phone_number = :phone_number, photo = :photo WHERE id = :id");
+                    $statement->execute([
+                      ":id" => $id,
+                      ":name" => $_POST["name"],
+                      ":phone_number" => $_POST["phone_number"],
+                      ":photo" => $ruta,
+                    ]);
+                  } else {
+                    $error = "Error uploading image to the server.";
+                  }
+      
+                } else {
+                  $error = "Invalid image format.";
+                }
+    }else {
+       // Actualizar la información del contacto
+    $name = $_POST["name"];
+    $phoneNumber = $_POST["phone_number"];
+    $statement = $conn->prepare("UPDATE contacts SET name = :name, phone_number = :phone_number WHERE id = :id");
+    $statement->execute([
+      ":id" => $id,
+      ":name" => $name,
+      ":phone_number" => $phoneNumber,
+    ]);  
+    }
+
     // Redireccionar a la página de inicio después de la actualización
-    $_SESSION["flash"] = ["message" => "Contact ".$_POST["name"]." updated."];
+    $_SESSION["flash"] = ["message" => "Contact $name updated."];
     header("Location: home.php");
     exit; // Terminar el script para evitar que se siga ejecutando
   }
 }
+
 ?>
 
 
