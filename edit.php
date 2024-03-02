@@ -56,14 +56,15 @@ if ($contact["user_id"] !== $_SESSION["user"]["id"]) {
 $error = null;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  $name = $_POST["name"];
-  $phoneNumber = $_POST["phone_number"];
 
-  if (empty($_POST["name"]) || empty($_POST["phone_number"]) || empty($imagen)) {
+  if (empty($_POST["name"]) || empty($_POST["phone_number"])) {
     $error = "Please fill all the fields.";
-  } else if (strlen($_POST["phone_number"]) < 9) {
+  } else 
+  
+  if (strlen($_POST["phone_number"]) < 9) {
     $error = "Phone number must be at least 9 characters.";
   }else
+
   // Verificar si se ha subido una nueva imagen
   if (!empty($_FILES["imagen"]["name"])) {
     $img = $_FILES["imagen"]["tmp_name"];
@@ -98,6 +99,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
   } else {
     // No se ha subido una nueva imagen, actualizar solo la información del contacto
+    $name = $_POST["name"];
+    $phoneNumber = $_POST["phone_number"];
     $statement = $conn->prepare("UPDATE contacts SET name = :name, phone_number = :phone_number WHERE id = :id");
     $statement->execute([
       ":id" => $id,
