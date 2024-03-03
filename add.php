@@ -1,3 +1,28 @@
+
+<style>
+  .foto {
+    text-align: center;
+    margin-bottom: -1rem;
+  }
+
+  .foto img {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+  }
+
+  .foto figcaption {
+  font-size: 1rem;
+  color: #4997F4;
+  }
+
+  .foto input[type="file"]{
+    display: none;
+  }
+
+  
+</style>
+
 <?php
 
   require "database.php";
@@ -70,12 +95,16 @@
           <form enctype="multipart/form-data" method="POST" action="add.php">
 
           <div class="mb-3 row">
-              <label for="imagen" class="col-md-4 col-form-label text-md-end">Photo</label>
+              <!-- <label for="imagen" class="col-md-4 col-form-label text-md-end">Photo</label> -->
 
-              <div class="col-md-6">
-                <input id="imagen" type="file" class="form-control" name="imagen" autocomplete="imagen" autofocus>
-              </div>
-            </div>
+                <div class="foto col-md-6">
+                  <label for="imagen">
+                    <img src="photos/defect.jpg" alt="Foto de perfil">
+                    <figcaption>Agregar</figcaption>
+                  </label>
+                  <input id="imagen" type="file" class="form-control" name="imagen" autocomplete="imagen" autofocus>
+                </div>
+           </div>
 
             <div class="mb-3 row">
               <label for="name" class="col-md-4 col-form-label text-md-end">Name</label>
