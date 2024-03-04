@@ -1,26 +1,13 @@
 
 <style>
-  .foto {
-    text-align: center;
-    margin-bottom: -1rem;
-  }
-
-  .foto img {
-    width: 160px;
-    height: 160px;
-    border-radius: 50%;
-  }
-
-  .foto figcaption {
+  figcaption {
   font-size: 1rem;
   color: #4997F4;
   }
 
-  .foto input[type="file"]{
+  input[type="file"]{
     display: none;
   }
-
-  
 </style>
 
 <?php
@@ -81,57 +68,64 @@
 
 <?php require "partials/header.php" ?>
 
-<div class="container pt-5">
-  <div class="row justify-content-center">
-    <div class="col-md-8">
-      <div class="card">
-        <div class="card-header">Add New Contact</div>
-        <div class="card-body">
-          <?php if ($error): ?>
-            <p class="text-danger">
-              <?= $error ?>
-            </p>
-          <?php endif ?>
-          <form enctype="multipart/form-data" method="POST" action="add.php">
+<div class="container mt-5 d-flex justify-content-center">
 
-          <div class="mb-3 row">
-              <!-- <label for="imagen" class="col-md-4 col-form-label text-md-end">Photo</label> -->
+  <div class="card" style="max-width: 30rem;">
 
-                <div class="foto col-md-6">
-                  <label for="imagen">
-                    <img src="photos/defect.jpg" alt="Foto de perfil">
-                    <figcaption>Agregar</figcaption>
-                  </label>
-                  <input id="imagen" type="file" class="form-control" name="imagen" autocomplete="imagen" autofocus>
-                </div>
-           </div>
+    <!-- Titulo -->
+    <div class="card-header text-center">
+      <h5 class="mb-0">Add New Contact</h5>
+    </div>
 
-            <div class="mb-3 row">
-              <label for="name" class="col-md-4 col-form-label text-md-end">Name</label>
+    <!-- Cuerpo -->
+    <div class="card-body">
 
-              <div class="col-md-6">
-                <input id="name" type="text" class="form-control" name="name" autocomplete="name" autofocus>
-              </div>
-            </div>
+      <?php if ($error): ?>
+        <p class="text-danger">
+          <?= $error ?>
+        </p>
+      <?php endif ?>
 
-            <div class="mb-3 row">
-              <label for="phone_number" class="col-md-4 col-form-label text-md-end">Phone Number</label>
+      <form enctype="multipart/form-data" method="POST" action="add.php">
 
-              <div class="col-md-6">
-                <input id="phone_number" type="tel" class="form-control" name="phone_number" autocomplete="phone_number" autofocus>
-              </div>
-            </div>
-
-            <div class="mb-3 row">
-              <div class="col-md-6 offset-md-4">
-                <button type="submit" class="btn btn-primary">Submit</button>
-              </div>
-            </div>
-          </form>
+        <!-- Foto de Perfil   -->
+        <div class="text-center mb-4">
+          <a href="#" onclick="document.getElementById('imagen').click(); return false;" style="text-decoration: none;">
+            <img src="photos/defect.jpg" class="rounded-circle" alt="Foto de perfil" style="width: 150px; height: 150px;">
+            <figcaption class="mt-2" >Add</figcaption>
+          </a>
+          <input id="imagen" type="file" class="form-control" name="imagen" autocomplete="imagen" autofocus>
         </div>
-      </div>
+
+        <!-- Nombre de Contacto -->
+        <div class="mb-3 row">
+          <label for="name" class="col-md-4 col-form-label text-md-end">Name</label>
+
+          <div class="col-md-6">
+            <input id="name" type="text" class="form-control" name="name" autocomplete="name" autofocus>
+          </div>
+        </div>
+
+        <!-- Número de Contacto -->
+        <div class="mb-3 row">
+          <label for="phone_number" class="col-md-4 col-form-label text-md-end">Phone Number</label>
+
+          <div class="col-md-6">
+            <input id="phone_number" type="tel" class="form-control" name="phone_number" autocomplete="phone_number" autofocus>
+          </div>
+        </div>
+
+        <!-- Guardar Cambios -->
+        <div class="mb-3 row">
+          <div class="col-md-6 offset-md-4">
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </div>
+
+      </form>
     </div>
   </div>
+  
 </div>
 
 <?php require "partials/footer.php" ?>
