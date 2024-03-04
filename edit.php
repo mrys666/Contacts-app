@@ -8,7 +8,7 @@
 
   input[type="file"]{
     display: none;
-  }
+  } 
 
   
 </style>
@@ -22,7 +22,7 @@ session_start();
 //Verifica si el usuario está auntenticado
 if (!isset($_SESSION["user"])) {
   header("Location: login.php");
-  return;
+  exit;
 }
 
 //Obtener el ID del contacto desde la URL
